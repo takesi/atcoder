@@ -1,22 +1,28 @@
-#!/bin/bash
+#!/bin/bash -e
 
 function usage() {
-  echo "usage: act {login,l,download,dl,d,test,t} ..."
+  echo ""
+  echo "usage: atc {login,l,download,dl,d,test,t} ..."
   echo ""
   echo "command arguments:"
-  echo "    login (l)                          login to atcoder"
-  echo "    download (d, dl) contest [tasks]   download sample cases"
+  echo ""
+  echo "    login (l)                              login to atcoder"
+  echo ""
+  echo "    download (d, dl) contest [tasks]       download sample cases"
   echo "            contest : contest name e.g. abc100"
-  echo "            tasks   : task names e.g. 'a b c' default a to f if not specified"
-  echo "    test (t) task [samples]            test a task"
+  echo "                      if you use . it will auto detect from path"
+  echo "            tasks   : task names e.g. 'a b c' default all tasks if empty"
+  echo ""
+  echo "    test (t) task [samples]                test a task"
   echo "            task    : task name e.g. a"
-  echo "            samples : sample names e.g. 1 default all samples"
+  echo "            samples : sample names e.g. 1 default all samples if empty"
+  echo ""
 }
 
 base_url="https://atcoder.jp/"
 cmd="./a.out"
 
-case ${1} in
+case "$1" in
   "l" | "login")
     oj login ${base_url}
     ;;
@@ -28,8 +34,8 @@ case ${1} in
       exit 1
     fi
     if [ "${contest}" == "." ]; then
-      dirname=$(pwd)
-      if [[ ${dirname} =~ /([a-z0-9\-]+)$ ]]; then
+      name=$(pwd)
+      if [[ ${name} =~ /([a-z0-9\-]+)$ ]]; then
         contest=${BASH_REMATCH[1]}
         echo "Extract contest ${contest} from path"
       fi
