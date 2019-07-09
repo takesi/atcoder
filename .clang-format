@@ -1,0 +1,10 @@
+Language: Cpp
+BasedOnStyle: Mozilla
+ColumnLimit: 120
+AlwaysBreakAfterDefinitionReturnType: None
+AlwaysBreakAfterReturnType: None
+#AllowAllParametersOfDeclarationOnNextLine: true
+#AllowShortIfStatementsOnASingleLine: true
+#AllowShortLoopsOnASingleLine: true
+AllowShortFunctionsOnASingleLine: All
+ConstructorInitializerAllOnOneLineOrOnePerLine: true

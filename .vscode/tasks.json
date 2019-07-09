@@ -1,0 +1,42 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "shell",
+      "label": "Open with Typora",
+      "command": "/Applications/Typora.app/Contents/MacOS/Typora",
+      "args": [
+        "${file}"
+      ],
+      "presentation": {
+        "reveal": "never"
+      },
+      "problemMatcher": []
+    },
+    {
+      "type": "shell",
+      "label": "g++ build active file",
+      "command": "/usr/bin/g++",
+      "args": [
+        "-g",
+        "-DLOCAL",
+        "-std=gnu++1y",
+        "${file}",
+        "-o",
+        "${fileDirname}/a.out"
+        // "${fileDirname}/${fileBasenameNoExtension}"
+      ],
+      "options": {
+        "cwd": "/usr/bin"
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "clear": true,
+        "focus": true,
+      }
+    }
+  ]
+}

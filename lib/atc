@@ -1,0 +1,81 @@
+#!/bin/bash
+
+function usage() {
+  echo "usage: act {login,l,download,dl,d,test,t} ..."
+  echo ""
+  echo "command arguments:"
+  echo "    login (l)                          login to atcoder"
+  echo "    download (d, dl) contest [tasks]   download sample cases"
+  echo "            contest : contest name e.g. abc100"
+  echo "            tasks   : task names e.g. 'a b c' default a to f if not specified"
+  echo "    test (t) task [samples]            test a task"
+  echo "            task    : task name e.g. a"
+  echo "            samples : sample names e.g. 1 default all samples"
+}
+
+base_url="https://atcoder.jp/"
+cmd="./a.out"
+
+case ${1} in
+  "l" | "login")
+    oj login ${base_url}
+    ;;
+  "d" | "dl" | "download")
+    contest=$2
+    tasks=$3
+    if [ -z "${contest}" ]; then
+      usage
+      exit 1
+    fi
+    if [ "${contest}" == "." ]; then
+      dirname=$(pwd)
+      if [[ ${dirname} =~ /([a-z0-9\-]+)$ ]]; then
+        contest=${BASH_REMATCH[1]}
+        echo "Extract contest ${contest} from path"
+      fi
+    fi
+    if [ -z "${tasks}" ]; then
+      tasks="a b c d e f"
+    fi
+    for task in ${tasks}
+      do
+      echo ${task}
+      url=${base_url}contests/${contest}/tasks/${contest}_${task}
+      oj dl -s -d . -f "${task}.%i.%e" ${url}
+      for file in ${task}.[1-9].in
+        do
+        mv ${file} ${file/.in/}
+      done
+      for file in ${task}.[1-9].out
+        do
+        mv ${file} ${file/.out/.ans}
+      done
+    done
+    ;;
+  "t" | "test")
+    task=$2
+    samples=$3
+    if [ -z "${task}" ]; then
+      usage
+      exit 1
+    fi
+    if [ ! -e "${cmd}" ]; then
+      echo "No execution file ${cmd}"
+      exit 1
+    fi
+    if [ -z "${samples}" ]; then
+      samples=1-9
+    fi
+    for file in ${task}.[$samples]
+      do
+      printf "[\e[34;1m${file}\e[m]\n"
+      ${cmd} < ${file}
+      printf "[\e[35;1mans\e[m]\n"
+      cat ${file}.ans
+      echo ""
+    done
+    ;;
+  *)
+    usage
+    ;;
+esac

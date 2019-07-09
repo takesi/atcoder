@@ -1,0 +1,13 @@
+{
+  // Hide files in explorer
+  "files.exclude": {
+    "**/__pycache__": true,
+    "**/*.dSYM": true,
+  },
+  "C_Cpp.intelliSenseEngineFallback": "Disabled",
+  "files.associations": {
+    "ios": "cpp",
+    "vector": "cpp"
+  },
+  "C_Cpp.errorSquiggles": "Disabled"
+}
