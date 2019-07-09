@@ -3,8 +3,7 @@
         {
             "name": "Mac",
             "includePath": [
-                "${workspaceFolder}/**",
-                "/Users/takeshi.ito/Library/Arduino15/packages/esp8266/tools/**"
+                "${workspaceFolder}/**"
             ],
             "defines": [
                 "LOCAL"
