@@ -1,0 +1,13 @@
+#!/usr/bin/env python3
+
+import sys
+from onlinejudge.service.atcoder import *
+
+if len(sys.argv) != 2:
+    print('specify contest name e.g. abc100')
+    exit(1)
+
+name = sys.argv[1]
+contest = AtCoderContest.from_url('https://atcoder.jp/contests/' + name)
+for problem in contest.list_problems():
+    print(problem.get_alphabet().lower() + ',' + problem.get_url())

@@ -7,19 +7,17 @@ function usage() {
   echo ""
   echo "    login (l)                              login to atcoder"
   echo ""
-  echo "    download (d, dl) contest [tasks]       download sample cases"
+  echo "    download (d, dl) contest               download sample cases"
   echo "            contest : contest name e.g. 'abc100'"
   echo "                      if you use '.' it will auto detect from path"
-  echo "            tasks   : task names e.g. 'a b c' default all tasks if empty"
   echo ""
   echo "    test (t) task [samples]                test a task"
   echo "            task    : task name e.g. 'a'"
-  echo "            samples : sample names e.g. '1' default all samples if empty"
+  echo "            samples : sample names e.g. '123' '1-4' all samples if not given"
 }
 
 base_url="https://atcoder.jp/"
 cmd="./a.out"
-temp="../lib/temp.cpp"
 
 case "$1" in
   "l" | "login")
@@ -27,36 +25,37 @@ case "$1" in
     ;;
   "d" | "dl" | "download")
     contest=$2
-    tasks=$3
     if [ -z "${contest}" ]; then
       usage
       exit 1
     fi
     if [ "${contest}" == "." ]; then
       name=$(pwd)
-      if [[ ${name} =~ /([a-z0-9\-]+)$ ]]; then
+      if [[ $name} =~ /([a-zA-Z0-9\-]+)$ ]]; then
         contest=${BASH_REMATCH[1]}
         echo "Extract contest ${contest} from path"
       fi
     fi
-    if [ -z "${tasks}" ]; then
-      tasks="a b c d e f"
-    fi
+    tasks=$(atc-tasks ${contest})
     for task in ${tasks}
       do
-      echo ${task}
-      url=${base_url}contests/${contest}/tasks/${contest}_${task}
-      oj dl -s -d . -f "${task}.%i.%e" ${url}
-      for file in ${task}.[1-9].in
-        do
-        mv ${file} ${file/.in/}
-      done
-      for file in ${task}.[1-9].out
-        do
-        mv ${file} ${file/.out/.ans}
-      done
-      if [ ! -e "${task}.cpp" ]; then
-        cp ${temp} ${task}.cpp
+      regexp="([a-z]),(.*)$"
+      if [[ ${task} =~ $regexp ]]; then
+        task=${BASH_REMATCH[1]}
+        url=${BASH_REMATCH[2]}
+        printf "[\e[34;1mDownloading ${task} samples\e[m]\n"
+        oj dl -s -d . -f "${task}.%i.%e" ${url}
+        for file in ${task}.[1-9].in
+          do
+          mv ${file} ${file/.in/}
+        done
+        for file in ${task}.[1-9].out
+          do
+          mv ${file} ${file/.out/.ans}
+        done
+        if [ ! -e "${task}.cpp" ]; then
+          touch ${task}.cpp
+        fi
       fi
     done
     ;;
