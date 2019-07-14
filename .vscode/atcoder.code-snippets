@@ -98,22 +98,6 @@
     ],
     "description": "最小公倍数"
   },
-  "yakubun": {
-    "prefix": "yakubun",
-    "body": [
-      "vector<int> x;",
-      "int num = n;",
-      "for (int i = 1; i * i <= n; i++) {",
-      "  if (num % i == 0) {",
-      "    x.push_back(i);",
-      "    if (i != 1 && i * i != n) {",
-      "      x.push_back(n / i);",
-      "    }",
-      "  }",
-      "}"
-    ],
-    "description": "約数の列挙"
-  },
   "tree-init": {
     "prefix": "tree",
     "body": [
@@ -162,5 +146,62 @@
       "dfs(0, -1);"
     ],
     "description": "dfsでto[]の木探索"
+  },
+  "mint": {
+    "prefix": "mint",
+    "body": [
+      "struct mint",
+      "{",
+      "  ll v;",
+      "  mint() : v(0) {}",
+      "  mint(ll v) : v((v % MOD + MOD) % MOD) {}",
+      "};",
+      "mint& operator+=(mint& a, mint b) { return a = a.v + b.v; }",
+      "mint& operator-=(mint& a, mint b) { return a = a.v - b.v; }",
+      "mint& operator*=(mint& a, mint b) { return a = a.v * b.v; }",
+      "mint operator+(mint a, mint b) { return a += b; }",
+      "mint operator-(mint a, mint b) { return a -= b; }",
+      "mint operator*(mint a, mint b) { return a *= b; }",
+      "mint operator-(mint a) { return 0 - a; }"
+    ],
+    "description": "mint (最低限の実装)"
+  },
+  "nvec": {
+    "prefix": "nvec",
+    "body": [
+      "struct nvec : public vector<int>",
+      "{",
+      "  int base;",
+      "  nvec(int len, int base) : vector<int>(len), base(base) {}",
+      "  nvec& operator++()",
+      "  {",
+      "    for (int i = 0; i < size(); i++) {",
+      "      at(i)++;",
+      "      if (at(i) < base)",
+      "        break;",
+      "      at(i) = 0;",
+      "    }",
+      "    return *this;",
+      "  };",
+      "  nvec& operator++(int dummy) { return operator++(); };",
+      "};"
+    ],
+    "description": "n進数vector (最低限の実装)"
+  },
+  "yakubun": {
+    "prefix": "yakubun",
+    "body": [
+      "vector<int> x;",
+      "int num = n;",
+      "for (int i = 1; i * i <= n; i++) {",
+      "  if (num % i == 0) {",
+      "    x.push_back(i);",
+      "    if (i != 1 && i * i != n) {",
+      "      x.push_back(n / i);",
+      "    }",
+      "  }",
+      "}"
+    ],
+    "description": "約数の列挙"
   },
 }
