@@ -98,20 +98,69 @@
     ],
     "description": "最小公倍数"
   },
-  "divisor": {
-    "prefix": "divisor",
+  "yakubun": {
+    "prefix": "yakubun",
     "body": [
-      "  vector<int> x;",
-      "  int num = n;",
-      "  for (int i = 1; i * i <= n; i++) {",
-      "    if (num % i == 0) {",
-      "      x.push_back(i);",
-      "      if (i != 1 && i * i != n) {",
-      "        x.push_back(n / i);",
-      "      }",
+      "vector<int> x;",
+      "int num = n;",
+      "for (int i = 1; i * i <= n; i++) {",
+      "  if (num % i == 0) {",
+      "    x.push_back(i);",
+      "    if (i != 1 && i * i != n) {",
+      "      x.push_back(n / i);",
       "    }",
-      "  }"
+      "  }",
+      "}"
     ],
     "description": "約数の列挙"
+  },
+  "tree-init": {
+    "prefix": "tree",
+    "body": [
+      "vector<vector<int>> to(N);",
+      "for (int i = 0; i < N - 1; i++) {",
+      "  int u, v;",
+      "  cin >> u >> v;",
+      "  u--, v--;",
+      "  to[u].push_back(v);",
+      "  to[v].push_back(u);",
+      "}"
+    ],
+    "description": "treeの初期化"
+  },
+  "bfs-tree": {
+    "prefix": "bfs",
+    "body": [
+      "queue<int> q;",
+      "vector<int> used(N);",
+      "q.push(0);",
+      "while (!q.empty()) {",
+      "  int v = q.front();",
+      "  q.pop();",
+      "  if (used[v])",
+      "    continue;",
+      "  used[v] = 1;",
+      "  for (auto& u : to[v]) {",
+      "    q.push(u);",
+      "  }",
+      "}"
+    ],
+    "description": "bfsでto[]の木探索"
+  },
+  "dfs-tree": {
+    "prefix": "dfs",
+    "body": [
+      "vector<int> used(N);",
+      "function<void(int, int)> dfs = [&](int v, int from) {",
+      "  if (used[v])",
+      "    return;",
+      "  used[v] = 1;",
+      "  for (auto& u : to[v]) {",
+      "    dfs(u, v);",
+      "  }",
+      "};",
+      "dfs(0, -1);"
+    ],
+    "description": "dfsでto[]の木探索"
   },
 }

@@ -24,14 +24,15 @@ case "$1" in
     oj login ${base_url}
     ;;
   "d" | "dl" | "download")
-    contest=$2
+    shift
+    contest=$1
     if [ -z "${contest}" ]; then
       usage
       exit 1
     fi
     if [ "${contest}" == "." ]; then
       name=$(pwd)
-      if [[ $name} =~ /([a-zA-Z0-9\-]+)$ ]]; then
+      if [[ ${name} =~ /([a-zA-Z0-9\-]+)$ ]]; then
         contest=${BASH_REMATCH[1]}
         echo "Extract contest ${contest} from path"
       fi
@@ -60,23 +61,29 @@ case "$1" in
     done
     ;;
   "t" | "test")
-    task=$2
-    samples=$3
+    shift
+    task=$1
     if [ -z "${task}" ]; then
       usage
       exit 1
+    fi
+    shift
+    samples=$1
+    if [ -z "${samples}" ]; then
+      samples=1-9
     fi
     if [ ! -e "${cmd}" ]; then
       echo "No execution file ${cmd}"
       exit 1
     fi
-    if [ -z "${samples}" ]; then
-      samples=1-9
-    fi
     for file in ${task}.[$samples]
       do
       printf "[\e[34;1m${file}\e[m]\n"
-      ${cmd} < ${file}
+      if [ "${samples}" == "1-9" ]; then
+        ${cmd} < ${file} 2>/dev/null
+      else
+        ${cmd} < ${file}
+      fi
       printf "[\e[35;1mans\e[m]\n"
       cat ${file}.ans
       echo ""
