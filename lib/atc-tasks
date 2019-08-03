@@ -2,12 +2,24 @@
 
 import sys
 from onlinejudge.service.atcoder import *
+import re
 
-if len(sys.argv) != 2:
+if len(sys.argv) < 2:
     print('specify contest name e.g. abc100')
     exit(1)
 
 name = sys.argv[1]
+if 2 < len(sys.argv):
+    pattern = sys.argv[2]
+else:
+    pattern = 'a-z'
+rx = r'[{0}]'.format(pattern)
 contest = AtCoderContest.from_url('https://atcoder.jp/contests/' + name)
-for problem in contest.list_problems():
-    print(problem.get_alphabet().lower() + ',' + problem.get_url())
+try:
+    for problem in contest.list_problems():
+        if re.match(rx, problem.get_alphabet().lower()):
+            print(problem.get_alphabet().lower() + ',' + problem.get_url())
+except requests.exceptions.HTTPError:
+    for problem in [chr(ord('a') + i) for i in range(26)]:
+        if re.match(rx, problem):
+            print(problem + ',' + contest.get_url() + '/tasks/' + name.replace('-', '_') + '_' + problem)

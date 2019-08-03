@@ -7,13 +7,14 @@ function usage() {
   echo ""
   echo "    login (l)                              login to atcoder"
   echo ""
-  echo "    download (d, dl) contest               download sample cases"
+  echo "    download (d, dl) contest [tasks]       download sample cases"
   echo "            contest : contest name e.g. 'abc100'"
-  echo "                      if you use '.' it will auto detect from path"
+  echo "                      if you use '.' it will auto detect from current path"
+  echo "            tasks   : task names e.g. 'a' or 'a-d'. download all tasks if not given"
   echo ""
   echo "    test (t) task [samples]                test a task"
   echo "            task    : task name e.g. 'a'"
-  echo "            samples : sample names e.g. '123' '1-4' all samples if not given"
+  echo "            samples : sample names e.g. '123' or '1-4'. run all samples if not given"
 }
 
 base_url="https://atcoder.jp/"
@@ -25,6 +26,10 @@ case "$1" in
     ;;
   "d" | "dl" | "download")
     shift
+    if [ "$1" == "-w" ]; then
+      html=yes
+      shift
+    fi
     contest=$1
     if [ -z "${contest}" ]; then
       usage
@@ -37,7 +42,8 @@ case "$1" in
         echo "Extract contest ${contest} from path"
       fi
     fi
-    tasks=$(atc-tasks ${contest})
+    shift
+    tasks=$(atc-tasks ${contest} $1)
     for task in ${tasks}
       do
       regexp="([a-z]),(.*)$"
@@ -56,6 +62,9 @@ case "$1" in
         done
         if [ ! -e "${task}.cpp" ]; then
           touch ${task}.cpp
+        fi
+        if [ "$html" == "yes" ]; then
+          wget ${url} -O ${task}.html
         fi
       fi
     done
@@ -84,8 +93,33 @@ case "$1" in
       else
         ${cmd} < ${file}
       fi
-      printf "[\e[35;1mans\e[m]\n"
-      cat ${file}.ans
+      if [ -e "${file}.ans" ]; then
+        printf "[\e[35;1mans\e[m]\n"
+        cat ${file}.ans
+      fi
+      echo ""
+    done
+    ;;
+  "p")
+    shift
+    task=$1
+    if [ -z "${task}" ]; then
+      usage
+      exit 1
+    fi
+    shift
+    samples=$1
+    if [ -z "${samples}" ]; then
+      samples=1-9
+    fi
+    for file in ${task}.[$samples]
+      do
+      printf "[\e[34;1m${file}\e[m]\n"
+      python3 ${task}.py < ${file}
+      if [ -e "${file}.ans" ]; then
+        printf "[\e[35;1mans\e[m]\n"
+        cat ${file}.ans
+      fi
       echo ""
     done
     ;;
