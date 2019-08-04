@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 function usage() {
-  echo "usage: atc {login,l,download,dl,d,test,t} ..."
+  echo "usage: atc {login,l,download,dl,d,test,t,p,py,c,clean} ..."
   echo ""
   echo "command arguments:"
   echo ""
@@ -12,9 +12,11 @@ function usage() {
   echo "                      if you use '.' it will auto detect from current path"
   echo "            tasks   : task names e.g. 'a' or 'a-d'. download all tasks if not given"
   echo ""
-  echo "    test (t) task [samples]                test a task"
+  echo "    test (t,p,py) task [samples]           test a task (c++ or python)"
   echo "            task    : task name e.g. 'a'"
   echo "            samples : sample names e.g. '123' or '1-4'. run all samples if not given"
+  echo ""
+  echo "    clean (c)                              delete all sample cases"
 }
 
 base_url="https://atcoder.jp/"
@@ -58,11 +60,10 @@ case "$1" in
         done
         for file in ${task}.[1-9].out
           do
-          mv ${file} ${file/.out/.ans}
+          echo [ans] >> ${file/.out/}
+          cat ${file} >> ${file/.out/}
+          rm ${file}
         done
-        if [ ! -e "${task}.cpp" ]; then
-          touch ${task}.cpp
-        fi
         if [ "$html" == "yes" ]; then
           wget ${url} -O ${task}.html
         fi
@@ -93,14 +94,12 @@ case "$1" in
       else
         ${cmd} < ${file}
       fi
-      if [ -e "${file}.ans" ]; then
-        printf "[\e[35;1mans\e[m]\n"
-        cat ${file}.ans
-      fi
+      printf "[\e[35;1mans\e[m]\n"
+      atc-ans ${file}
       echo ""
     done
     ;;
-  "p")
+  "p" | "py")
     shift
     task=$1
     if [ -z "${task}" ]; then
@@ -116,11 +115,22 @@ case "$1" in
       do
       printf "[\e[34;1m${file}\e[m]\n"
       python3 ${task}.py < ${file}
-      if [ -e "${file}.ans" ]; then
-        printf "[\e[35;1mans\e[m]\n"
-        cat ${file}.ans
-      fi
+      printf "[\e[35;1mans\e[m]\n"
+      atc-ans ${file}
       echo ""
+    done
+    ;;
+  "c" | "clean")
+    for file in [a-z].[1-9]
+      do
+      rm ${file}
+      if [ -e "${file}.ans" ]; then
+        rm ${file}.ans
+      fi
+    done
+    for file in [a-z].html
+      do
+      rm ${file}
     done
     ;;
   *)
