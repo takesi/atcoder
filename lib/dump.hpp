@@ -1,6 +1,10 @@
 #define dump(...) _dump(#__VA_ARGS__, __VA_ARGS__)
 #define dumpv(...) _dumpv(#__VA_ARGS__, __VA_ARGS__)
 
+#ifndef console
+#define console cerr
+#endif
+
 template<typename T1, typename T2>
 inline ostream& operator<<(ostream& o, const pair<T1, T2>& v)
 {
@@ -35,6 +39,12 @@ inline ostream& operator<<(ostream& o, const queue<T>& v) {
 }
 
 template<typename T>
+inline ostream& operator<<(ostream& o, const deque<T>& v) {
+  _dumpit(o, v);
+  return o;
+}
+
+template<typename T>
 inline ostream& operator<<(ostream& o, const set<T>& v) {
   _dumpit(o, v);
   return o;
@@ -55,12 +65,12 @@ const char* _dumps(const char* s)
     text = true;
   while (*s != ',' && *s != '\0') {
     if (!text)
-      cerr << *s++;
+      console << *s++;
     else
       s++;
   }
   if (!text)
-    cerr << "=";
+    console << "=";
   return s;
 }
 
@@ -68,14 +78,14 @@ template<typename T>
 void _dump(const char* s, T&& head)
 {
   s = _dumps(s);
-  cerr << head << endl;
+  console << head << endl;
 }
 
 template<typename T, typename... Args>
 void _dump(const char* s, T&& head, Args&&... tail)
 {
   s = _dumps(s);
-  cerr << head << ", ";
+  console << head << ", ";
   _dump(s + 1, tail...);
 }
 
@@ -83,31 +93,31 @@ template<typename T>
 void _dumpv(const char* s, T&& v)
 {
   s = _dumps(s);
-  cerr << v << endl;
+  console << v << endl;
 }
 
 template<typename T>
 void _dumpv(const char* s, T&& v, int n)
 {
   s = _dumps(s);
-  cerr << "[ ";
+  console << "[ ";
   for (int i = 0; i < n; i++) {
-    cerr << v[i] << " ";
+    console << v[i] << " ";
   }
-  cerr << "]" << endl;
+  console << "]" << endl;
 }
 
 template<typename T>
 void _dumpv(const char* s, T&& v, int n, int m)
 {
   s = _dumps(s);
-  cerr << "[" << n << "][" << m << "]" << endl;
+  console << "[" << n << "][" << m << "]" << endl;
   for (int i = 0; i < n; i++) {
-    cerr << i << ": ";
+    console << i << ": ";
     for (int j = 0; j < m; j++) {
-      cerr << v[i][j] << " ";
+      console << v[i][j] << " ";
     }
-    cerr << endl;
+    console << endl;
   }
 }
 
@@ -115,6 +125,6 @@ template<typename T, typename... Args>
 void _dumpv(const char* s, T&& head, Args&&... tail)
 {
   s = _dumps(s);
-  cerr << head << ", ";
+  console << head << ", ";
   _dumpv(s + 1, tail...);
 }
