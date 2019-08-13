@@ -63,7 +63,7 @@ case "$1" in
         done
         for file in ${task}.[1-9].out
           do
-          echo [ans] >> ${file/.out/}
+          echo "[ans]" >> ${file/.out/}
           cat ${file} >> ${file/.out/}
           rm ${file}
         done
@@ -73,7 +73,11 @@ case "$1" in
           sed -i -e 's#[a-z0-9/\.]*bootstrap.min.js#../public/js/lib/bootstrap.min.js#' tmp.html
           sed -i -e 's#[a-z0-9/\.]*jquery-1.9.1.min.js#../public/js/lib/jquery-1.9.1.min.js#' tmp.html
           sed -i -e 's#[a-z0-9/\.]*MathJax.js#../public/MathJax-2.7.5/MathJax.js#' tmp.html
+          sed -i -e 's#[a-z0-9/\.]*base.css#../public/css/base.css#' tmp.html
+          sed -i -e 's#[a-z0-9/\.]*base.js#../public/js/base.js#' tmp.html
           sed -i -e 's#[a-z0-9/\.]*task.js#../public/js/task.js#' tmp.html
+          sed -i -e 's#[a-z0-9/\.\-]*ja.png#../public/img/ja.png#' tmp.html
+          sed -i -e 's#[a-z0-9/\.\-]*en.png#../public/img/en.png#' tmp.html
           mv tmp.html ${task}.html
           rm tmp.html-e
         fi
