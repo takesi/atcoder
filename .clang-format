@@ -4,7 +4,10 @@ ColumnLimit: 120
 AlwaysBreakAfterDefinitionReturnType: None
 AlwaysBreakAfterReturnType: None
 #AllowAllParametersOfDeclarationOnNextLine: true
-#AllowShortIfStatementsOnASingleLine: true
-#AllowShortLoopsOnASingleLine: true
+AllowShortIfStatementsOnASingleLine: true
+AllowShortLoopsOnASingleLine: true
 AllowShortFunctionsOnASingleLine: All
+#AllowShortBlocksOnASingleLine: false
 ConstructorInitializerAllOnOneLineOrOnePerLine: true
+BreakBeforeBraces: Attach
+#ForEachMacros: [rep]

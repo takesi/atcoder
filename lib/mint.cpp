@@ -32,12 +32,6 @@ mint operator+(mint a, mint b) { return a += b; }
 mint operator-(mint a, mint b) { return a -= b; }
 mint operator*(mint a, mint b) { return a *= b; }
 mint operator-(mint a) { return 0 - a; }
-
-bool operator==(mint a, mint b) { return a.v == b.v; }
-bool operator!=(mint a, mint b) { return a.v != b.v; }
-istream& operator>>(istream& os, mint& a) { return (os >> a.v); }
-ostream& operator<<(ostream& os, const mint& a) { return (os << a.v); }
-
 mint& operator/=(mint& a, mint b) { return a *= b.inv(); }
 mint operator/(mint a, mint b) { return a /= b; }
 mint mint::pow(ll t) const
@@ -51,6 +45,10 @@ mint mint::pow(ll t) const
   return a;
 }
 mint mint::inv() const { return pow(MOD - 2); }
+bool operator==(mint a, mint b) { return a.v == b.v; }
+bool operator!=(mint a, mint b) { return a.v != b.v; }
+istream& operator>>(istream& os, mint& a) { return (os >> a.v); }
+ostream& operator<<(ostream& os, const mint& a) { return (os << a.v); }
 
 struct mset
 {
@@ -85,12 +83,17 @@ int main()
   ios::sync_with_stdio(false);
   // freopen("template.1", "r", stdin);
 
-  // mint a, b, c, d;
-  // cin >> a >> b >> c >> d;
-  // dump(a, b, c, d);
-  // cout << (a * b + c - d) << endl;
+  mint a, b, c, d;
+  a = rand();
+  b = rand();
+  c = rand();
+  d = rand();
+  dump(a, b, c, d);
+  cout << (a * b + c - d) << endl;
 
   mset ms(10000);
+  int n = rand() % 10000;
+  int k = rand() % n;
   cout << "nPk : " << ms.perm(n, k) << endl;
   cout << "nCk : " << ms.comb(n, k) << endl;
 

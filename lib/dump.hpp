@@ -11,6 +11,12 @@ inline ostream& operator<<(ostream& o, const pair<T1, T2>& v)
   return o << v.first << "," << v.second;
 }
 
+template<typename T1, typename T2>
+inline ostream& operator<<(ostream& o, const tuple<T1, T2>& v)
+{
+  return o << get<0>(v) << "," << get<1>(v);
+}
+
 template<typename T1, typename T2, typename T3>
 inline ostream& operator<<(ostream& o, const tuple<T1, T2, T3>& v)
 {
@@ -59,11 +65,18 @@ inline ostream& operator<<(ostream& o, const map<T1, T2>& v) {
 const char* _dumps(const char* s)
 {
   int text = false;
+  int stack = 0;
   while (*s == ' ')
     s++;
   if (*s == '"')
     text = true;
-  while (*s != ',' && *s != '\0') {
+  while (*s != '\0') {
+    if (*s == '(')
+      stack++;
+    else if (*s == ')')
+      stack--;
+    else if (stack == 0 && *s == ',')
+      break;
     if (!text)
       console << *s++;
     else
