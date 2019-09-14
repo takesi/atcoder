@@ -49,6 +49,7 @@ case "$1" in
         echo "Extract contest ${contest} from path"
       fi
     fi
+    echo "Download from Contest ${contest}"
     tasks=$(atc-tasks ${contest} $1)
     for task in ${tasks}
       do
