@@ -17,8 +17,8 @@ rx = r'[{0}]'.format(pattern)
 contest = AtCoderContest.from_url('https://atcoder.jp/contests/' + name)
 try:
     for problem in contest.list_problems():
-        if re.match(rx, problem.get_alphabet().lower()):
-            print(problem.get_alphabet().lower() + ',' + problem.get_url())
+        if re.match(rx, problem.problem_id.lower()):
+            print(problem.problem_id.lower() + ',' + problem.get_url())
 except requests.exceptions.HTTPError:
     for problem in [chr(ord('a') + i) for i in range(26)]:
         if re.match(rx, problem):

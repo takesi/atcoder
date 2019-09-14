@@ -5,18 +5,19 @@ function usage() {
   echo ""
   echo "command arguments:"
   echo ""
-  echo "    login (l)                              login to atcoder"
+  echo "    login (l)                                    login to atcoder"
   echo ""
-  echo "    download (d, dl) contest [tasks]       download sample cases"
-  echo "            contest : contest name e.g. 'abc100'"
-  echo "                      if you use '.' it will auto detect from current path"
-  echo "            tasks   : task names e.g. 'a' or 'a-d'. download all tasks if not given"
+  echo "    download (d, dl) [-w] [-c contest] [tasks]   download sample cases"
+  echo "            -w         : download html file"
+  echo "            -c contest : contest name e.g. 'abc100'"
+  echo "                         as default it will auto detect from current path"
+  echo "            tasks      : task names e.g. 'a' or 'a-d'. download all tasks if not given"
   echo ""
-  echo "    test (t,p,py) task [samples]           test a task (c++ or python)"
-  echo "            task    : task name e.g. 'a'"
-  echo "            samples : sample names e.g. '123' or '1-4'. run all samples if not given"
+  echo "    test (t,p,py) task [samples]                 test a task (c++ or python)"
+  echo "            task       : task name e.g. 'a'"
+  echo "            samples    : sample names e.g. '123' or '1-4'. run all samples if not given"
   echo ""
-  echo "    clean (c)                              delete all sample cases"
+  echo "    clean (c)                                    delete all sample cases"
 }
 
 base_url="https://atcoder.jp/"
@@ -35,10 +36,11 @@ case "$1" in
       html=yes
       shift
     fi
-    contest=$1
-    if [ -z "${contest}" ]; then
-      usage
-      exit 1
+    contest="."
+    if [ "$1" == "-c" ]; then
+      shift
+      contest=$1
+      shift
     fi
     if [ "${contest}" == "." ]; then
       name=$(pwd)
@@ -47,7 +49,6 @@ case "$1" in
         echo "Extract contest ${contest} from path"
       fi
     fi
-    shift
     tasks=$(atc-tasks ${contest} $1)
     for task in ${tasks}
       do
