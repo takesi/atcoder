@@ -36,6 +36,10 @@ case "$1" in
       html=yes
       shift
     fi
+    if [ "$1" == "." ]; then
+      usage
+      exit 1
+    fi
     contest="."
     if [ "$1" == "-c" ]; then
       shift
@@ -49,7 +53,7 @@ case "$1" in
         echo "Extract contest ${contest} from path"
       fi
     fi
-    echo "Download from Contest ${contest}"
+    echo "Download contest ${contest}"
     tasks=$(atc-tasks ${contest} $1)
     for task in ${tasks}
       do
@@ -57,7 +61,7 @@ case "$1" in
       if [[ ${task} =~ $regexp ]]; then
         task=${BASH_REMATCH[1]}
         url=${BASH_REMATCH[2]}
-        printf "[\e[34;1mDownloading ${task} samples\e[m]\n"
+        printf "\n[\e[34;1mDownloading ${task} samples\e[m]\n"
         oj dl -s -d . -f "${task}.%i.%e" ${url}
         for file in ${task}.[1-9].in
           do
