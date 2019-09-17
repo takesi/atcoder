@@ -112,7 +112,7 @@ case "$1" in
       if [ "${samples}" == "1-9" ]; then
         ${cmd} < ${file} 2>/dev/null
       else
-        ${cmd} < ${file}
+        ${cmd} < ${file} 2>&1
       fi
       printf "[\e[35;1mans\e[m]\n"
       atc-ans ${file}

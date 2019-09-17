@@ -4,13 +4,14 @@
 
 - 桁数とビット数の関係
 
-  | ビット数         | 2進数    | 10進数                  | 実際の最大値              |
-  | ---------------- | -------- | ----------------------- | ------------------------- |
-  | 20               | $2^{20}$ | $\sim 1 \times 10^6$    | 1,048,576                 |
-  | 30               | $2^{30}$ | $\sim 1 \times 10^9$    | 1,073,741,824             |
-  | 31 (`int`)       | $2^{31}$ | $\sim 2 \times 10^9$    | 2,147,483,648             |
-  | 60               | $2^{60}$ | $\sim 1 \times 10^{18}$ | 1,152,921,504,606,846,976 |
-  | 63 (`long long`) | $2^{63}$ | $\sim 9 \times 10^{18}$ | 9,223,372,036,854,775,808 |
+  | ビット数         | 2進数    | 10進数                     | 実際の最大値              |
+  | ---------------- | -------- | -------------------------- | ------------------------- |
+  | 20               | $2^{20}$ | $\approx 1 \times 10^6$    | 1,048,576                 |
+  | 30               | $2^{30}$ | $\approx 1 \times 10^9$    | 1,073,741,824             |
+  | 31 (`int`)       | $2^{31}$ | $\approx 2 \times 10^9$    | 2,147,483,648             |
+  | 40               | $2^{40}$ | $\approx 1 \times 10^{12}$ | 1,099,511,627,776         |
+  | 60               | $2^{60}$ | $\approx 1 \times 10^{18}$ | 1,152,921,504,606,846,976 |
+  | 63 (`long long`) | $2^{63}$ | $\approx 9 \times 10^{18}$ | 9,223,372,036,854,775,808 |
 
   
 
@@ -99,8 +100,10 @@
 
 - 二分検索
 
+  一般的な書き方。配列の要素`[0:N)`から見つける場合にはそのまま使えるが、最大長を二分探索する場合は`left=0,right=max+1`で行うと最低でも`isOk(max)`が実行される。その場合は`while`ループを抜けた後の`right`は正しくない。必要な処理を`isOk()`の`if`分の中に書く。
+
   ```c++
-int left = -1; // a[0]がダメなこともあるので初期値は-1
+  int left = -1; // a[0]がダメなこともあるので初期値は-1
   int right = (int)a.size(); // a[a.size()-1]がダメなこともあるので初期値はa.size()
   while (right - left > 1) {
       int mid = left + (right - left) / 2;
@@ -109,6 +112,26 @@ int left = -1; // a[0]がダメなこともあるので初期値は-1
   }
   // leftは条件を満たさない最大の値、rightは条件を満たす最小の値になっている
   ```
+  
+  下記のような書き方もあるみたいなので参考として載せておく。
+  
+  ```c++
+  int left = 0;
+  int right = (int)a.size();
+  while (left <= right) {
+    int mid = left + (right - left) / 2;
+    if (target == a[mid]) {
+      // 必要な処理を書く
+      break;
+    } else if (target < a[mid]) {
+      right = mid - 1;
+    } else {
+      left = mid + 1;
+    }
+  }
+  ```
+  
+  
   
   
   
@@ -180,14 +203,6 @@ int left = -1; // a[0]がダメなこともあるので初期値は-1
 
   
 
-- ローリングハッシュ
-
-  文字列の比較を$O(1)$で行うことができる。ハッシュをconcatして新たなハッシュを作成できるので1文字変更して比較するなどがとても高速。
-
-  [RollingHash]: ../lib/rolling-hash.cpp
-
-  
-
 - 順列と組み合わせ
 
   フェルマーの小定理を使ったmod版の順列と組み合わせはこっち。mintとmsetを組み合わせて使う。
@@ -236,9 +251,107 @@ int left = -1; // a[0]がダメなこともあるので初期値は-1
   
 
   
+- 素因数分解
+
+  素因数分解した$p_1^{e_1}p_2^{e_2}\cdots p_k^{e_k}$の約数の数は$(e_1 + 1)(e_2 + 1)\cdots (e_k + 1)$で計算できる。
+  
+  ```c++
+  map<ll, int> prime_factor(ll n) {
+    map<ll, int> ret;
+    for (ll i = 2; i * i <= n; i++) {
+      while (n % i == 0) {
+        ret[i]++;
+        n /= i;
+      }
+    }
+    if (n != 1) ret[n] = 1;
+    return ret;
+  }
+  ```
+  
+  [prime_factor]: https://ei1333.github.io/luzhiled/snippets/math/prime-factor.html
+  
+  
+  
 - ダブリング
 
   工事中
+  
+  
+  
+- ガウス消去法
+
+  配列のすべてのサブセット間の最大xorを求める。
+
+  ```c++
+  // ガウス消去法 (xor)
+  ll GaussElimination(vl& v) {
+    int n = v.size();
+    int idx = 0;
+    for (int b = 60; 0 <= b; b--) {
+      int x = idx;
+      while (x < n && ((v[x] >> b) & 1) == 0) x++;
+      if (x == n) continue; // もしbitが1の要素がなければスキップ
+      swap(v[idx], v[x]);
+      rep(i, n) if ((i != idx) && (((v[i] >> b) & 1) == 1)) v[i] ^= v[idx];
+      idx++;
+    }
+    // 部分集合の最大xor値を返す
+    ll mx = 0;
+    rep(i, n) mx ^= v[i];
+    return mx;
+  }
+  ```
+
+  
+
+## 文字列
+
+- 文字列型
+
+  ```c++
+  string s;
+  s.substr(pos, len); // posからlen分取り出す
+  s.substr(pos); // posから最後まで取り出す
+  s.c_str(); // char *で返す
+  s = to_string(0.123); // stringに変換
+  ```
+
+  
+
+- ローリングハッシュ
+
+  文字列の比較を$O(1)$で行うことができる。ハッシュをconcatして新たなハッシュを作成できるので1文字変更して比較するなどがとても高速。
+
+  [RollingHash]: ../lib/rolling-hash.cpp
+
+  
+
+- Z-Algorithm
+
+  同じ文字列内での一致した長さを配列的に返す関数。
+
+  ```c++
+  vector<int> z_algorithm(const string &s) {
+    vector<int> prefix(s.size());
+    for (int i = 1, j = 0; i < s.size(); i++) {
+      if (i + prefix[i - j] < j + prefix[j]) {
+        prefix[i] = prefix[i - j];
+      } else {
+        int k = max(0, j + prefix[j] - i);
+        while (i + k < s.size() && s[k] == s[i + k]) ++k;
+        prefix[i] = k;
+        j = i;
+      }
+    }
+    prefix[0] = (int)s.size();
+    return prefix;
+  }
+  ```
+
+  [z-algorithm]: https://ei1333.github.io/luzhiled/snippets/string/z-algorithm.html
+
+  
 
 ## グラフ系
 
@@ -363,7 +476,7 @@ int left = -1; // a[0]がダメなこともあるので初期値は-1
   文字列sとtが与えられて共通部分文字列の最大値を求める。配るdpの実装。
 
   ```c++
-  // dp[s.size() + 2][t.size() + 2]のテーブルが必要
+  // dp[s.size() + 1][t.size() + 1]のテーブルが必要
   rep(i, s.size() + 1) rep(j, t.size() + 1) {
     dp[i + 1][j] = max(dp[i + 1][j], dp[i][j]);
     dp[i][j + 1] = max(dp[i][j + 1], dp[i][j]);
@@ -374,16 +487,51 @@ int left = -1; // a[0]がダメなこともあるので初期値は-1
   cout << dp[s.size()][t.size()] << endl;
   ```
 
+  集めるdpの実装。こちらの方は`dp[i][j]`の値が`(i,j)`の位置から最大いくつ一致しているかが取れるので再利用しやすい。配るdpだと最後の答えだけしか正しくない。
+
+  ```c++
+  // dp[s.size() + 1][t.size() + 1]のテーブルが必要
+  for (int i = s.size() - 1; 0 <= i; i--) {
+    for (int j = t.size() - 1; 0 <= j; j--) {
+      if (s[i] == t[j]) {
+        dp[i][j] = max(dp[i][j], dp[i + 1][j + 1] + 1);
+      }
+    }
+  }
+  ```
+
   
 
 - メモ化
 
+  一度計算した値を記録しておいて再度計算しないようにする。再帰関数などで2度めは深くcallしなくても良いようにして計算量を減らす。
+
+  
+
 - 桁DB
 
+  上の桁から見ていく。より小さいフラグ`less`を使って遷移を書く。数を数える場合は初期値を0にして最初の遷移の元を1にする。最大値の場合は初期値を-1にして最初の遷移の元を0にする（この場合-1からは遷移させないようにする）。3番目以降のdp変数は「ある数字が出たかどうか 0/1」や「ある数字が出た回数 0〜数字が出る個数のmax」などにすると良い。
+  
+  ```c++
+  // 単に入力文字列s以下の個数を計算するだけのテンプレート
+  int n = s.size();
+  dp[0][0] = 1;
+  rep(i, n) rep(less, 2) rep(d, 2) { // 10進数なら10にする
+    int x = (int)(s[i] - '0');
+    int nless = less;
+    if (less == 0 && x < d) continue;
+    if (less == 0 && x > d) nless = 1;
+    dp[i + 1][nless] += dp[i][less];
+  }
+  ```
+  
+  
+  
   
 
 ## サイトリンク集
 
+[Luzhiled's memo]: https://ei1333.github.io/luzhiled/
 [yukicoder]: https://yukicoder.me/wiki/algorithm_summary
 [c++ snippet]: https://satanic0258.github.io/snippets/index.html
 [東工大trap]: https://trap.jp/post/152/
