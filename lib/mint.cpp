@@ -50,11 +50,34 @@ bool operator!=(mint a, mint b) { return a.v != b.v; }
 istream& operator>>(istream& os, mint& a) { return (os >> a.v); }
 ostream& operator<<(ostream& os, const mint& a) { return (os << a.v); }
 
-struct mset
+static vector<mint> mfact(1, 1); // n! (mod MOD)
+mint nPk(int n, int k) {
+  if (n < 0 || k < 0 || n < k) return 0;
+  if (k == 0) return 1;
+  int pn = mfact.size();
+  if (pn < n + 1) {
+    mfact.resize(n + 1);
+    for (int i = pn; i <= n; i++) mfact[i] = mfact[i - 1] * i;
+  }
+  return mfact[n] * mfact[n - k].inv();
+}
+mint nCk(int n, int k) {
+  if (n < 0 || k < 0 || n < k) return 0;
+  if (k == 0) return 1;
+  int pn = mfact.size();
+  if (pn < n + 1) {
+    mfact.resize(n + 1);
+    for (int i = pn; i <= n; i++) mfact[i] = mfact[i - 1] * i;
+  }
+  return mfact[n] * mfact[k].inv() * mfact[n - k].inv();
+}
+
+// 何度もcomb/permを呼ぶ場合はこっちの方が早いかも
+struct mcount
 {
   vector<mint> fact;  // n! (mod MOD)
   vector<mint> ifact; // k!^{M-2} (mod MOD)
-  mset(int n) : fact(n + 1), ifact(n + 1)
+  mcount(int n) : fact(n + 1), ifact(n + 1)
   {
     fact[0] = 1;
     for (int i = 1; i <= n; ++i)
