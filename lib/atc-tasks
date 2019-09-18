@@ -13,7 +13,7 @@ if 2 < len(sys.argv):
     pattern = sys.argv[2]
 else:
     pattern = 'a-z'
-rx = r'([a-zA-Z0-9\-]+_)?[{0}]'.format(pattern)
+rx = r'([a-zA-Z0-9\-]+_)?[{0}]$'.format(pattern)
 contest = AtCoderContest.from_url('https://atcoder.jp/contests/' + name)
 try:
     for problem in contest.list_problems():

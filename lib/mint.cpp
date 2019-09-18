@@ -50,26 +50,24 @@ bool operator!=(mint a, mint b) { return a.v != b.v; }
 istream& operator>>(istream& os, mint& a) { return (os >> a.v); }
 ostream& operator<<(ostream& os, const mint& a) { return (os << a.v); }
 
-static vector<mint> mfact(1, 1); // n! (mod MOD)
+mint mfact(int n) { // n! (mod MOD)
+  static vector<mint> fact(1, 1);
+  int pn = fact.size();
+  if (pn < n + 1) {
+    fact.resize(n + 1);
+    for (int i = pn; i <= n; i++) fact[i] = fact[i - 1] * i;
+  }
+  return fact[n];
+}
 mint nPk(int n, int k) {
   if (n < 0 || k < 0 || n < k) return 0;
   if (k == 0) return 1;
-  int pn = mfact.size();
-  if (pn < n + 1) {
-    mfact.resize(n + 1);
-    for (int i = pn; i <= n; i++) mfact[i] = mfact[i - 1] * i;
-  }
-  return mfact[n] * mfact[n - k].inv();
+  return mfact(n) * mfact(n - k).inv();
 }
 mint nCk(int n, int k) {
   if (n < 0 || k < 0 || n < k) return 0;
   if (k == 0) return 1;
-  int pn = mfact.size();
-  if (pn < n + 1) {
-    mfact.resize(n + 1);
-    for (int i = pn; i <= n; i++) mfact[i] = mfact[i - 1] * i;
-  }
-  return mfact[n] * mfact[k].inv() * mfact[n - k].inv();
+  return mfact(n) * mfact(k).inv() * mfact(n - k).inv();
 }
 
 // 何度もcomb/permを呼ぶ場合はこっちの方が早いかも
@@ -114,11 +112,14 @@ int main()
   dump(a, b, c, d);
   cout << (a * b + c - d) << endl;
 
-  mset ms(10000);
+  mcount ms(10000);
   int n = rand() % 10000;
   int k = rand() % n;
   cout << "nPk : " << ms.perm(n, k) << endl;
   cout << "nCk : " << ms.comb(n, k) << endl;
+
+  cout << "nPk : " << nPk(n, k) << endl;
+  cout << "nCk : " << nCk(n, k) << endl;
 
   return 0;
 }

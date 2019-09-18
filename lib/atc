@@ -32,20 +32,22 @@ case "$1" in
     ;;
   "d" | "dl" | "download")
     shift
-    if [ "$1" == "-w" ]; then
-      html=yes
-      shift
-    fi
-    if [ "$1" == "." ]; then
-      usage
-      exit 1
-    fi
     contest="."
-    if [ "$1" == "-c" ]; then
-      shift
-      contest=$1
-      shift
-    fi
+    case "$1" in
+      "-w")
+        shift
+        html=yes
+        ;;
+      "-c")
+        shift
+        contest=$1
+        shift
+        ;;
+      ".")
+        usage
+        exit 1
+      ;;
+    esac
     if [ "${contest}" == "." ]; then
       name=$(pwd)
       if [[ ${name} =~ /([a-zA-Z0-9\-]+)$ ]]; then
@@ -53,7 +55,7 @@ case "$1" in
         echo "Extract contest ${contest} from path"
       fi
     fi
-    echo "Download contest ${contest}"
+    echo "Download contest ${contest} $1"
     tasks=$(atc-tasks ${contest} $1)
     for task in ${tasks}
       do
@@ -87,6 +89,10 @@ case "$1" in
           mv tmp.html ${task}.html
           rm tmp.html-e
         fi
+      fi
+      if [ "$html" == "yes" ]; then
+        editorial="https://img.atcoder.jp/${contest}/editorial.pdf"
+        wget $editorial
       fi
     done
     ;;
