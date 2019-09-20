@@ -557,3 +557,102 @@
 [Spaghetti Source]: http://www.prefield.com/algorithm/
 [libalgo]: https://tubo28.me/compprog/algorithm/
 
+# ライブラリ (python3.4)
+
+## テンプレート
+
+- input, map
+
+  ```python
+  s = input() # abcde
+  x = int(input()) # 3
+  n, m = map(int, input().split()) # 10 20
+  a = list(map(int, input().split())) # 1 2 3 4 5 ...
+  b = [0] * 5 # [0, 0, 0, 0, 0]
+  c = []
+  for i in range(5):
+    c.append(i)
+  print(c) # [0, 1, 2, 3, 4]
+  print(*c) # 0 1 2 3 4
+  ```
+
+- math
+
+  ```python
+  from math import ceil, floor, sqrt
+  print(ceil(7/3))  # 3
+  print(floor(7/3))  # 2
+  print(floor(sqrt(121) + 0.1)) # 11
+  print(pow(11, 2, 100)) # 21 (11^2 mod 100)
+  ```
+
+- gcd, lcm
+
+  ```python
+  from fractions import gcd
+  def lcm(a, b):
+      return (a * b) // gcd(a, b)
+  print(lcm(3, 4), gcd(30, 45))
+  ```
+
+- collections
+
+  ```python
+  from collections import Counter
+  l=['a','b','b','c','b','a','c','c','b','c','b','a']
+  c=Counter(l) # カウンタークラスが作られる。S=Counter({'b': 5, 'c': 4, 'a': 3})
+  print(c.most_common(2)) # [('b', 5), ('c', 4)]
+  print(*c.keys()) # ['a', 'b', 'c']
+  print(*c.values()) # [3, 5, 4]
+  print(*c.items()) # [('a', 3), ('b', 5), ('c', 4)]
+  ```
+
+- list
+
+  ```python
+  l = list(range(-5, 6))
+  a, b, *c = l  # 要素を途中から取り出す
+  print(c) # [-3, -2, -1, 0, 1, 2, 3, 4, 5]
+  print(l) # [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5]
+  print([i for i in l if i % 2 == 1])  # 奇数だけ [-5, -3, -1, 1, 3, 5]
+  
+  a = [[(x, y) for x in range(4)] for y in range(3)]  # 4x3の配列初期化
+  for i in range(3):
+      for j in reversed(range(4)):
+          print(a[i][j], i, j)
+  ```
+
+- permutations, combinations
+
+  ```python
+  from itertools import product, permutations, combination
+  l = list(range(4))
+  for x in product(l, repeat=3): # 全列挙
+      print(x)
+  for x in permutations(l, 3): # 順列
+      print(x)
+  for x in combinations(l, 3): # 組み合わせ
+      print(x)
+  ```
+
+- sort, sorted, reversed
+
+  ```python
+  a = [1, 5, 3, 2, 4]
+  print(sorted(a)) # [1, 2, 3, 4, 5]
+  b = sorted(a, reverse=True)
+  print(b) # [5, 4, 3, 2, 1]
+  b.sort()
+  print(b) # [1, 2, 3, 4, 5]
+  ```
+
+- groupby
+
+  ```python
+  from itertools import groupby
+  a = [1, 3, 2, 4, 3, 1, 1, 2, 4]
+  for key, value in groupby(a, key=lambda x: x % 2):
+      print(key, list(value))
+  ```
+
+  

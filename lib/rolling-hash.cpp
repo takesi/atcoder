@@ -16,18 +16,15 @@ const ll LINF = 1001002003004005006ll;
 
 struct RollingHash {
   const int nmod = 2;
-  using hash_type = tuple<ll, ll>; // 衝突が起こるようならmodを増やして
-
+  using hash_type = tuple<ll, ll>;              // 衝突が起こるようならmodを増やす
   vector<ll> base{ 1009, 1007 };                // 2339, 9973 など
   vector<ll> mod{ 1000000007LL, 1000000009LL }; // 1000000087LL, 999999937LL など
   vector<vector<ll>> hash;
   vector<vector<ll>> pow;
-
   RollingHash() {
     hash.resize(nmod);
     pow.resize(nmod);
   }
-
   // 文字列からハッシュテーブルを作成する
   void init(const string& s) {
     int n = s.size();
@@ -56,8 +53,6 @@ struct RollingHash {
     return make_tuple(h[0], h[1]);
   }
 };
-
-// 型の名前が長いので省略名を定義
 using hs = RollingHash::hash_type;
 
 void solve() {

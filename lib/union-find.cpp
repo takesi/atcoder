@@ -17,24 +17,24 @@ const ll LINF = 1001002003004005006ll;
 struct UnionFind {
   vector<int> parent; // parentの番号。親だった場合は-(その集合のサイズ)
   // parentはすべて-1にする。全てバラバラになる
-  UnionFind(int N) { parent = vector<int>(N, -1); }
-  // Aがどのグループに属しているかを調べる
-  int root(int A) {
-    if (parent[A] < 0) return A;
-    return (parent[A] = root(parent[A]));
+  UnionFind(int n) { parent = vector<int>(n, -1); }
+  // aがどのグループに属しているかを調べる
+  int root(int a) {
+    if (parent[a] < 0) return a;
+    return (parent[a] = root(parent[a]));
   }
   // 自分のいるグループの頂点数を調べる
-  int size(int A) { return -parent[root(A)]; }
-  // AとBをくっつける
-  int connect(int A, int B) {
-    // AとBを直接つなぐのではなくroot(A)とroot(B)をくっつける
-    A = root(A);
-    B = root(B);
-    if (A == B) return false; // すでにくっついている
-    // 大きい方(A)を小さい方(B)にくっつけたいので大小が逆だったらひっくり返す
-    if (size(A) < size(B)) swap(A, B);
-    parent[A] += parent[B]; // Aのサイズを更新する
-    parent[B] = A;          // Bの親をAに変更する
+  int size(int a) { return -parent[root(a)]; }
+  // aとbをくっつける
+  int connect(int a, int a) {
+    // aとbを直接つなぐのではなくroot(a)とroot(b)をくっつける
+    a = root(a);
+    b = root(b);
+    if (a == b) return false; // すでにくっついている
+    // 大きい方(a)を小さい方(b)にくっつけたいので大小が逆だったらひっくり返す
+    if (size(a) < size(b)) swap(a, b);
+    parent[a] += parent[b]; // aのサイズを更新する
+    parent[b] = a;          // bの親をAに変更する
     return true;
   }
 };

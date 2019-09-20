@@ -18,12 +18,9 @@ const int INF = 1001001001;
 const ll LINF = 1001002003004005006ll;
 
 template<class Iter>
-inline bool next_permutation2(Iter first, Iter k, Iter last)
-{
-  if (first == k)
-    return false;
-  if (k == last)
-    return next_permutation(first, last);
+inline bool next_permutation2(Iter first, Iter k, Iter last) {
+  if (first == k) return false;
+  if (k == last) return next_permutation(first, last);
   Iter i = k;
   --i;
   if (*i < *k) {
@@ -36,8 +33,7 @@ inline bool next_permutation2(Iter first, Iter k, Iter last)
     std::rotate(i, j, last);
     --i, --j;
     for (; j != last; ++j) {
-      if (*i < *j)
-        break;
+      if (*i < *j) break;
     }
     if (j != last) {
       std::iter_swap(i, j);
@@ -49,14 +45,11 @@ inline bool next_permutation2(Iter first, Iter k, Iter last)
 }
 
 template<typename Iter>
-inline bool next_combination(Iter first, Iter k, Iter last)
-{
-  if ((first == last) || (first == k) || (last == k))
-    return false;
+inline bool next_combination(Iter first, Iter k, Iter last) {
+  if ((first == last) || (first == k) || (last == k)) return false;
   Iter it1 = first, it2 = last;
   ++it1;
-  if (last == it1)
-    return false;
+  if (last == it1) return false;
   it1 = last;
   --it1;
   it1 = k;
@@ -64,8 +57,7 @@ inline bool next_combination(Iter first, Iter k, Iter last)
   while (first != it1) {
     if (*--it1 < *it2) {
       Iter j = k;
-      while (!(*it1 < *j))
-        ++j;
+      while (!(*it1 < *j)) ++j;
       std::iter_swap(it1, j);
       ++it1, ++j;
       it2 = k;
@@ -81,8 +73,7 @@ inline bool next_combination(Iter first, Iter k, Iter last)
   return false;
 }
 
-int main()
-{
+int main() {
   cin.tie(0);
   ios::sync_with_stdio(false);
   // freopen("temp.1", "r", stdin);

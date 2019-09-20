@@ -17,8 +17,7 @@ const int MOD = 1e9 + 7;
 const int INF = 1001001001;
 const ll LINF = 1001002003004005006ll;
 
-struct mint
-{
+struct mint {
   ll v;
   mint() : v(0) {}
   mint(ll v) : v((v % MOD + MOD) % MOD) {}
@@ -34,14 +33,11 @@ mint operator*(mint a, mint b) { return a *= b; }
 mint operator-(mint a) { return 0 - a; }
 mint& operator/=(mint& a, mint b) { return a *= b.inv(); }
 mint operator/(mint a, mint b) { return a /= b; }
-mint mint::pow(ll t) const
-{
-  if (!t)
-    return 1;
+mint mint::pow(ll t) const {
+  if (!t) return 1;
   mint a = pow(t >> 1);
   a *= a;
-  if (t & 1)
-    a *= *this;
+  if (t & 1) a *= *this;
   return a;
 }
 mint mint::inv() const { return pow(MOD - 2); }
@@ -71,35 +67,26 @@ mint nCk(int n, int k) {
 }
 
 // 何度もcomb/permを呼ぶ場合はこっちの方が早いかも
-struct mcount
-{
+struct mcount {
   vector<mint> fact;  // n! (mod MOD)
   vector<mint> ifact; // k!^{M-2} (mod MOD)
-  mcount(int n) : fact(n + 1), ifact(n + 1)
-  {
+  mcount(int n) : fact(n + 1), ifact(n + 1) {
     fact[0] = 1;
-    for (int i = 1; i <= n; ++i)
-      fact[i] = fact[i - 1] * i;
+    for (int i = 1; i <= n; ++i) fact[i] = fact[i - 1] * i;
     ifact[n] = fact[n].inv();
-    for (int i = n; i >= 1; --i)
-      ifact[i - 1] = ifact[i] * i;
+    for (int i = n; i >= 1; --i) ifact[i - 1] = ifact[i] * i;
   }
-  mint perm(int n, int k)
-  { // nPk (mod MOD)
-    if (k < 0 || n < k)
-      return 0;
+  mint perm(int n, int k) { // nPk (mod MOD)
+    if (k < 0 || n < k) return 0;
     return fact[n] * ifact[n - k];
   }
-  mint comb(int n, int k)
-  { // nCk (mod MOD)
-    if (k < 0 || n < k)
-      return 0;
+  mint comb(int n, int k) { // nCk (mod MOD)
+    if (k < 0 || n < k) return 0;
     return fact[n] * ifact[k] * ifact[n - k];
   }
 };
 
-int main()
-{
+int main() {
   cin.tie(0);
   ios::sync_with_stdio(false);
   // freopen("template.1", "r", stdin);
