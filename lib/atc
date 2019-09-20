@@ -78,6 +78,7 @@ case "$1" in
           wget ${url} -O tmp.html
           sed -i -e 's#[a-z0-9/\.]*bootstrap.min.css#../public/css/bootstrap.min.css#' tmp.html
           sed -i -e 's#[a-z0-9/\.]*bootstrap.min.js#../public/js/lib/bootstrap.min.js#' tmp.html
+          sed -i -e 's#[a-z0-9/\.]*favicon.png#../public/img/favicon.png#' tmp.html
           sed -i -e 's#[a-z0-9/\.]*jquery-1.9.1.min.js#../public/js/lib/jquery-1.9.1.min.js#' tmp.html
           sed -i -e 's#[a-z0-9/\.]*MathJax.js#../public/MathJax-2.7.5/MathJax.js#' tmp.html
           sed -i -e 's#[a-z0-9/\.]*base.css#../public/css/base.css#' tmp.html
