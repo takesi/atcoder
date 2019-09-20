@@ -160,6 +160,28 @@
   }
   ```
 
+  幅を求めたい場合は下記の方法。
+
+  ```c++
+  // 区間の左端leftでloop
+  int right = 0; // 毎回rightを使い回すようにする
+  ll sum = 0;    // sumも使い回す
+  for (int left = 0; left < n; left++) {
+    // sumにa[right]を加えても大丈夫ならrightを動かす
+    while (right < n && (sum + a[right]) <= x) {
+      sum += a[right];
+      right++;
+    }
+    // breakした状態でrightは条件を満たす最大
+    ans += (right - left);
+    // leftをインクリメントする準備
+    if (right == left)
+      right++; // rightがleftに重なったらrightも動かす
+    else
+      sum -= a[left]; // leftのみがインクリメントされるのでsumからa[left]を引く
+  }
+  ```
+
   
 
 - スライド最小値
@@ -173,20 +195,17 @@
   mapが自動的に昇順ソートされることを使って圧縮するコード。同じ値があっても大丈夫。このコードでは元の配列を書き換える。
 
   ```c++
-  map<int, int> mp;
-  for (int i = 0; i < N; i++) {
-    mp[data[i]] = 0;
-  }
-  int j = 0;
-  for (auto& x : mp)
-    x.second = j++;
-  for (int i = 0; i < N; i++) {
-    data[i] = mp[data[i]];
+  { // geometry compression
+    map<int, int> mp;
+    rep(i, n) mp[a[i]] = 0;
+    int idx = 0;
+    for (auto& m : mp) m.second = idx++;
+    rep(i, n) b[i] = mp[a[i]];
   }
   ```
-
   
-
+  
+  
 - BIT (Fenwick Tree)
 
   セグ木の簡易版で合計値だけを簡単に計算する時に使う。2次元配列のインプリもある。計算量も同じ$O(logN)$。
