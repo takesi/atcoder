@@ -21,6 +21,7 @@ struct mint {
   ll v;
   mint() : v(0) {}
   mint(ll v) : v((v % MOD + MOD) % MOD) {}
+  operator ll() const { return v; }
   mint pow(ll t) const;
   mint inv() const;
 };
@@ -30,7 +31,7 @@ mint& operator*=(mint& a, mint b) { return a = a.v * b.v; }
 mint operator+(mint a, mint b) { return a += b; }
 mint operator-(mint a, mint b) { return a -= b; }
 mint operator*(mint a, mint b) { return a *= b; }
-mint operator-(mint a) { return 0 - a; }
+mint operator-(mint a) { return (mint)0 - a; }
 mint& operator/=(mint& a, mint b) { return a *= b.inv(); }
 mint operator/(mint a, mint b) { return a /= b; }
 mint mint::pow(ll t) const {
