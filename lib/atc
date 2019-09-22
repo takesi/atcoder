@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 function usage() {
-  echo "usage: atc {login,l,download,dl,d,test,t,p,py,c,clean} ..."
+  echo "usage: atc {login,l,download,dl,d,test,t,p,py,c,cl,clean} ..."
   echo ""
   echo "command arguments:"
   echo ""
@@ -17,7 +17,7 @@ function usage() {
   echo "            task       : task name e.g. 'a'"
   echo "            samples    : sample names e.g. '123' or '1-4'. run all samples if not given"
   echo ""
-  echo "    clean (c)                                    delete all sample cases"
+  echo "    clean (c, cl)                                delete all sample cases"
 }
 
 base_url="https://atcoder.jp/"
@@ -146,7 +146,7 @@ case "$1" in
       echo ""
     done
     ;;
-  "c" | "clean")
+  "c" | "cl" | "clean")
     for file in [a-z].[1-9]
       do
       rm ${file}
