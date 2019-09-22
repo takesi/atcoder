@@ -1,0 +1,36 @@
+#!/usr/bin/env python3
+
+import subprocess
+import random
+
+# select stderr option
+# err = subprocess.STDOUT
+err = subprocess.DEVNULL
+
+# select number of loops
+cnt = 5
+while 0 < cnt:
+    cnt -= 1
+
+    # open process
+    p = subprocess.Popen(['./a.out'], shell=True,
+            stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=err)
+    
+    # input data
+    print('[input]')
+
+    h = random.randint(1, 10)
+    w = random.randint(1, 10)
+    a = random.randint(0, w // 2)
+    b = random.randint(0, h // 2)
+    print(h, w, a, b)
+
+    p.stdin.write(('{} {} {} {}\n'.format(h, w, a, b)).encode())
+    p.stdin.close()
+
+    print('[output]')
+    for line in iter(p.stdout.readline, b''):
+        print(line.rstrip().decode('utf-8'))
+
+    print('')
+    p.kill()
