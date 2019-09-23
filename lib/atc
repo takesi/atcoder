@@ -121,7 +121,7 @@ case "$1" in
         ${cmd} < ${file} 2>&1
       fi
       printf "[\e[35;1mans\e[m]\n"
-      atc-ans ${file}
+      awk 'found==1 || /\[ans\]/ {if (found==0) found=1; else print $0}' ${file}
       echo ""
     done
     ;;
@@ -142,7 +142,7 @@ case "$1" in
       printf "[\e[34;1m${file}\e[m]\n"
       python3 ${task}.py < ${file}
       printf "[\e[35;1mans\e[m]\n"
-      atc-ans ${file}
+      awk 'found==1 || /\[ans\]/ {if (found==0) found=1; else print $0}' ${file}
       echo ""
     done
     ;;
