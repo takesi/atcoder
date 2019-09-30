@@ -26,13 +26,13 @@ struct Bit {
   int n; // 2のべき乗でなくてもOK
   vector<T> node;
   Bit(int n) : n(n), node(n + 1, 0) {}
-  void add(int i, T w) { // node[i] += w
-    for (int x = ++i; x <= n; x += x & -x) node[x] += w;
+  void add(int i, T a) { // node[i] += w
+    for (int x = ++i; x <= n; x += x & -x) node[x] += a;
   }
   T sum(int i) { // return sum [0, i)
-    T ans = 0;
-    for (int x = i; x > 0; x -= x & -x) ans += node[x];
-    return ans;
+    T a = 0;
+    for (int x = i; x > 0; x -= x & -x) a += node[x];
+    return a;
   }
   T sum(int i, int j) { // return sum [i, j)
     return sum(j) - sum(i);
@@ -49,19 +49,24 @@ struct Bit2D {
   int h, w; // 2のべき乗でなくてもOK
   vector<vector<T>> node;
   Bit2D(int h, int w) : h(h), w(w), node(h + 1, vector<T>(w + 1, 0)) {}
-  void add(int y, int x, T w) { // node[y][x] += w
+  void add(int y, int x, T a) { // node[y][x] += w
     ++y, ++x;
     for (int j = y; j <= h; j += j & -j)
-      for (int i = x; i <= w; i += i & -i) node[j][i] += w;
+      for (int i = x; i <= w; i += i & -i) node[j][i] += a;
   }
   T sum(int y, int x) { // return sum [0, 0] x (y, x)
-    T ans = 0;
+    T a = 0;
     for (int j = y; j > 0; j -= j & -j)
-      for (int i = x; i > 0; i -= i & -i) ans += node[j][i];
-    return ans;
+      for (int i = x; i > 0; i -= i & -i) a += node[j][i];
+    return a;
   }
   T sum(int y1, int x1, int y2, int x2) { // return sum [y1, x1] x (y2, x2)
     return sum(y2, x2) - sum(y1, x2) - sum(y2, x1) + sum(y1, x1);
+  }
+  vector<vector<T>> debug() { // for debug
+    vector<vector<T>> a(h, vector<T>(w));
+    rep(j, h) rep(i, w) a[j][i] = sum(j, i, j + 1, i + 1);
+    return a;
   }
 };
 
