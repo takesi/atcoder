@@ -196,15 +196,27 @@ for (int left = 0; left < n; left++) {
 
 #### 座標圧縮
 
-mapが自動的に昇順ソートされることを使って圧縮するコード。同じ値があっても大丈夫。このコードでは元の配列を書き換える。
+mapが自動的に昇順ソートされることを使って圧縮するコード。同じ値があっても大丈夫。
 
 ```c++
-{ // geometry compression
+{ // geometry compression with map
   map<int, int> mp;
   rep(i, n) mp[a[i]] = 0;
   int idx = 0;
   for (auto& m : mp) m.second = idx++;
   rep(i, n) b[i] = mp[a[i]];
+}
+```
+
+vectorを使っても可能。重複を削除しないとindexには隙間ができる。
+
+```c++
+{ // geometry compression with vector+lower_bound
+  vector<int> t;
+  rep(i, a.size()) t.push_back(a[i]);
+  sort(t.begin(), t.end());
+  // t.erase(unique(t.begin(), t.end()), t.end()); // 重複を削除したい場合
+  rep(i, a.size()) b[i] = lower_bound(t.begin(), t.end(), a[i]) - t.begin();
 }
 ```
 
