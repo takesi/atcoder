@@ -2,14 +2,21 @@
 using namespace std;
 
 #ifdef LOCAL
-#include "../lib/dump.hpp"
+#include "dump.hpp"
 #else
 #define dump(...)
 #define dumpv(...)
 #endif
 
+#define rep(i, n) for (int i = 0; i < (n); i++)
+#define mins(x, y) (x = min(x, y))
+#define maxs(x, y) (x = max(x, y))
 typedef long long ll;
 typedef pair<int, int> P;
+typedef vector<int> vi;
+typedef vector<vi> vvi;
+typedef vector<ll> vl;
+typedef vector<vl> vvl;
 const int MOD = 1e9 + 7;
 const int INF = 1001001001;
 const ll LINF = 1001002003004005006ll;
@@ -17,31 +24,59 @@ const ll LINF = 1001002003004005006ll;
 void solve() {
   int N, M;
   cin >> N >> M;
-  vector<vector<int>> dist(N, vector<int>(N, INF)); // dist[from][to]
-  for (int i = 0; i < N; i++) {
-    dist[i][i] = 0; // 自分自身へは距離0
-  }
-  for (int i = 0; i < M; i++) {
+
+  vvi dist(N, vi(N, INF)); // dist[from][to]
+  rep(i, N) dist[i][i] = 0; // 自分自身へは距離0
+  rep(i, M) {
     int u, v, c;
     cin >> u >> v >> c;
     u--, v--;
     dist[u][v] = c;
     dist[v][u] = c; // 無向辺の場合は両側に入力
   }
-  for (int k = 0; k < N; k++) {     // 経由する頂点
-    for (int i = 0; i < N; i++) {   // 開始頂点
-      for (int j = 0; j < N; j++) { // 終端
-        dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j]);
-        // 経路復元をしたい場合は経由頂点を更新時に覚えて後で再帰的にたどる
-      }
+
+  // 経路復元用の経由点リスト
+  vvi next(N, vi(N)); // next[from][to]
+  rep(i, N) rep(j, N) next[i][j] = j; // 次の経由点を初期化
+
+  rep(k, N) rep(i, N) rep(j, N) { // k:経由する頂点、i:始点、j:終点
+    // dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j]);
+    if (dist[i][j] > dist[i][k] + dist[k][j]) {
+      dist[i][j] = dist[i][k] + dist[k][j];
+      next[i][j] = next[i][k]; // 経路復元用の経由頂点を覚える
+    // } else if (i != k && dist[i][j] == dist[i][k] + dist[k][j]) {
+    //   next[i][j] = min(next[i][j], next[i][k]); // 経路復元を辞書順にしたい場合
     }
   }
+
   // 最小コストを表示
-  for (int i = 0; i < N; i++) { // 開始頂点
+  rep(i, N) { // 始点
     cout << i + 1 << " to ";
-    for (int j = 0; j < N; j++) { // 終端
+    rep(j, N) { // 終点
       if (i != j && dist[i][j] != INF) cout << j + 1 << ":" << dist[i][j] << " ";
     }
+    cout << endl;
+  }
+
+  // 最長コストの経路を表示
+  function<void(int, int)> path = [&](int s, int g) {
+    vi v;
+    for (int u = s; u != g; u = next[u][g])
+      v.push_back(u);
+    v.push_back(g);
+    rep(i, v.size()) cout << v[i] << " ";
+  };
+  rep(i, N) {
+    int md = 0;
+    int mj = 0;
+    rep(j, N) { // 終点
+      if (i != j && md < dist[i][j]) {
+        md = dist[i][j];
+        mj = j;
+      }
+    }
+    cout << i + 1 << " to " << mj + 1 << " : ";
+    path(i, mj);
     cout << endl;
   }
 }
