@@ -1,0 +1,33 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "shell",
+      "label": "g++ build active file",
+      "command": "/usr/bin/g++",
+      "args": [
+        "-g",
+        "-std=gnu++1y",
+        "-DLOCAL",
+        // "-D_GLIBCXX_DEBUG",
+        // "-D_LIBCPP_DEBUG_LEVEL=1",
+        "-I",
+        "${workspaceFolder}/lib",
+        "${file}",
+        "-o",
+        "${fileDirname}/a.out"
+      ],
+      "options": {
+        "cwd": "/usr/bin"
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "clear": true,
+        "focus": true,
+      }
+    }
+  ]
+}

@@ -1,0 +1,221 @@
+{
+  "template": {
+    "scope": "cpp",
+    "prefix": "temp",
+    "body": [
+      "#include <bits/stdc++.h>",
+      "using namespace std;",
+      "",
+      "#ifdef LOCAL",
+      "#include \"dump.hpp\"",
+      "#else",
+      "#define dump(...)",
+      "#define dumpv(...)",
+      "#endif",
+      "",
+      "#define rep(i, n) for (int i = 0; i < (n); i++)",
+      "#define mins(x, y) (x = min(x, y))",
+      "#define maxs(x, y) (x = max(x, y))",
+      "typedef long long ll;",
+      "typedef pair<int, int> P;",
+      "typedef vector<int> vi;",
+      "typedef vector<vi> vvi;",
+      "typedef vector<ll> vl;",
+      "typedef vector<vl> vvl;",
+      "const int MOD = 1e9 + 7;",
+      "const int INF = 1001001001;",
+      "const ll LINF = 1001002003004005006ll;",
+      "",
+      "void solve() {",
+      "  $1",
+      "}",
+      "",
+      "int main() {",
+      "  cin.tie(0);",
+      "  ios::sync_with_stdio(false);",
+      "  cout << fixed << setprecision(15);",
+      "  // freopen(\"temp.1\", \"r\", stdin);",
+      "  solve();",
+      "  return 0;",
+      "}"
+    ],
+    "description": "template"
+  },
+  "for loop": {
+    "scope": "cpp",
+    "prefix": "for",
+    "body": [
+      "for (int ${1:i} = 0; $1 < N; $1++) {",
+      "  $2",
+      "}"
+    ],
+    "description": "for loop"
+  },
+  "for loop reverse": {
+    "scope": "cpp",
+    "prefix": "forr",
+    "body": [
+      "for (int ${1:i} = N - 1; 0 <= $1; $1--) {",
+      "  $2",
+      "}"
+    ],
+    "description": "for loop reverse"
+  },
+  "tuple": {
+    "scope": "cpp",
+    "prefix": "tuple",
+    "body": [
+      "// usage:",
+      "// vector<T> v; v.push_back(T(1, 2, 3)); v.emplace_back(1, 2, 3);",
+      "// queue<T> q; q.push(T(1, 2, 3));",
+      "// int x, y, z; tie(x, y, z) = q.front(); q.pop();",
+      "typedef tuple<int, int, int> T;"
+    ],
+    "description": "tuple template"
+  },
+  "struct": {
+    "scope": "cpp",
+    "prefix": "struct",
+    "body": [
+      "struct T {",
+      "  int x, y, z;",
+      "  T(int x = 0, int y = 0, int z = 0) : x(x), y(y), z(z) {}",
+      "};",
+      "bool operator<(const T& a, const T& b) { // compare function for sort",
+      "  return a.x != b.x ? a.x < b.x : a.y != b.y ? a.y < b.y : a.z < b.z;",
+      "}",
+      "inline ostream& operator<<(ostream& o, const T& a) { // stream function for debug",
+      "  return o << a.x << \",\" << a.y << \",\" << a.z;",
+      "}"
+    ],
+    "description": "struct template"
+  },
+  "gcd & lcm": {
+    "scope": "cpp",
+    "prefix": "gcd & lcm",
+    "body": [
+      "ll gcd(ll a, ll b) { return (a == 0) ? b : gcd(b % a, a); }",
+      "ll lcm(ll a, ll b) { return (a * b) / gcd(a, b); }"
+    ],
+    "description": "最大公約数と最小公倍数"
+  },
+  "tree-init": {
+    "scope": "cpp",
+    "prefix": "tree",
+    "body": [
+      "vector<vector<int>> to(n);",
+      "rep(i, n - 1) {",
+      "  int u, v;",
+      "  cin >> u >> v;",
+      "  u--, v--;",
+      "  to[u].push_back(v);",
+      "  to[v].push_back(u);",
+      "}"
+    ],
+    "description": "treeの初期化"
+  },
+  "bfs-tree": {
+    "scope": "cpp",
+    "prefix": "bfs",
+    "body": [
+      "deque<int> q;",
+      "vector<int> used(N);",
+      "q.push_back(0);",
+      "while (!q.empty()) {",
+      "  int u = q.front();",
+      "  q.pop_front();",
+      "  if (used[u]) continue;",
+      "  used[u] = 1;",
+      "  for (auto& v : to[u]) q.push_back(v);",
+      "}"
+    ],
+    "description": "bfsでto[]の探索"
+  },
+  "dfs-tree": {
+    "scope": "cpp",
+    "prefix": "dfs",
+    "body": [
+      "vector<int> used(N);",
+      "function<void(int)> dfs = [&](int u) {",
+      "  if (used[u]) return;",
+      "  used[u] = 1;",
+      "  for (auto& v : to[u]) dfs(v);",
+      "};",
+      "dfs(0);"
+    ],
+    "description": "dfsでto[]の探索"
+  },
+  "mint": {
+    "scope": "cpp",
+    "prefix": "mint",
+    "body": [
+      "struct mint {",
+      "  ll v;",
+      "  mint() : v(0) {}",
+      "  mint(ll v) : v((v % MOD + MOD) % MOD) {}",
+      "  operator ll() const { return v; }",
+      "  mint pow(ll t) const;",
+      "  mint inv() const;",
+      "};",
+      "mint& operator+=(mint& a, mint b) { return a = a.v + b.v; }",
+      "mint& operator-=(mint& a, mint b) { return a = a.v - b.v; }",
+      "mint& operator*=(mint& a, mint b) { return a = a.v * b.v; }",
+      "mint operator+(mint a, mint b) { return a += b; }",
+      "mint operator-(mint a, mint b) { return a -= b; }",
+      "mint operator*(mint a, mint b) { return a *= b; }",
+      "mint operator-(mint a) { return (mint)0 - a; }",
+      "mint& operator/=(mint& a, mint b) { return a *= b.inv(); }",
+      "mint operator/(mint a, mint b) { return a /= b; }",
+      "mint mint::pow(ll t) const {",
+      "  if (!t) return 1;",
+      "  mint a = pow(t >> 1);",
+      "  a *= a;",
+      "  if (t & 1) a *= *this;",
+      "  return a;",
+      "}",
+      "mint mint::inv() const { return pow(MOD - 2); }",
+      "bool operator==(mint a, mint b) { return a.v == b.v; }",
+      "bool operator!=(mint a, mint b) { return a.v != b.v; }",
+      "istream& operator>>(istream& os, mint& a) { return (os >> a.v); }",
+      "ostream& operator<<(ostream& os, const mint& a) { return (os << a.v); }",
+    ],
+    "description": "mint (MOD演算関数)"
+  },
+  "nvec": {
+    "scope": "cpp",
+    "prefix": "nvec",
+    "body": [
+      "struct nvec : public vector<int> {",
+      "  int base;",
+      "  nvec(int len, int base) : vector<int>(len), base(base) {}",
+      "  nvec& operator++() {",
+      "    for (int i = 0; i < size(); i++) {",
+      "      at(i)++;",
+      "      if (at(i) < base) break;",
+      "      at(i) = 0;",
+      "    }",
+      "    return *this;",
+      "  };",
+      "  nvec& operator++(int dummy) { return operator++(); };",
+      "};"
+    ],
+    "description": "n進数vector (最低限の実装)"
+  },
+  "divisor": {
+    "scope": "cpp",
+    "prefix": "divisor",
+    "body": [
+      "vector<int> dv;",
+      "for (int i = 1; i * i <= ${1:n}; i++) {",
+      "  if ($1 % i == 0) {",
+      "    dv.push_back(i);",
+      "    if (i * i != $1 && i != 1) { // $1を含めたければi!=1を外す",
+      "      dv.push_back($1 / i);",
+      "    }",
+      "  }",
+      "}",
+      "sort(dv.begin(), dv.end());"
+    ],
+    "description": "約数の列挙"
+  },
+}

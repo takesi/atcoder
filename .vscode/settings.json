@@ -1,0 +1,17 @@
+{
+    // Hide files in explorer
+    "files.exclude": {
+        "**/__pycache__": true,
+        "**/*.dSYM": true,
+    },
+    "C_Cpp.intelliSenseEngineFallback": "Disabled",
+    "C_Cpp.errorSquiggles": "Disabled",
+    "C_Cpp.updateChannel": "Insiders",
+    "C_Cpp.suggestSnippets": false,
+    "editor.hover.enabled": false,
+    "editor.quickSuggestions": false,
+    "editor.suggestOnTriggerCharacters": false,
+    "editor.parameterHints.enabled": false,
+    "editor.snippetSuggestions": "top",
+    "editor.tabCompletion": "onlySnippets",
+}
