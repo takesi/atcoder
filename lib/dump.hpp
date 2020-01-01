@@ -31,9 +31,13 @@ inline ostream& operator<<(ostream& o, const deque<T>& v);
 template<typename T>
 inline ostream& operator<<(ostream& o, const set<T>& v);
 template<typename T>
+inline ostream& operator<<(ostream& o, const unordered_set<T>& v);
+template<typename T>
 inline ostream& operator<<(ostream& o, const multiset<T>& v);
 template<typename T1, typename T2>
 inline ostream& operator<<(ostream& o, const map<T1, T2>& v);
+template<typename T1, typename T2>
+inline ostream& operator<<(ostream& o, const unordered_map<T1, T2>& v);
 
 template<typename T1, typename T2>
 inline ostream& operator<<(ostream& o, const pair<T1, T2>& v) {
@@ -90,6 +94,12 @@ inline ostream& operator<<(ostream& o, const set<T>& v) {
 }
 
 template<typename T>
+inline ostream& operator<<(ostream& o, const unordered_set<T>& v) {
+  _dumpit(o, v);
+  return o;
+}
+
+template<typename T>
 inline ostream& operator<<(ostream& o, const multiset<T>& v) {
   _dumpit(o, v);
   return o;
@@ -97,6 +107,12 @@ inline ostream& operator<<(ostream& o, const multiset<T>& v) {
 
 template<typename T1, typename T2>
 inline ostream& operator<<(ostream& o, const map<T1, T2>& v) {
+  _dumpit(o, v);
+  return o;
+}
+
+template<typename T1, typename T2>
+inline ostream& operator<<(ostream& o, const unordered_map<T1, T2>& v) {
   _dumpit(o, v);
   return o;
 }
