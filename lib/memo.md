@@ -109,7 +109,20 @@ multiset<int> st = { 1, 2, 2, 3, 3, 5, 5, 7 }; // setも同様
 }
 ```
 
+#### bitsetを使って高速化
 
+bitsetはシフト演算を使って配列にマップした複数の値を同時に加減算することができるので便利。
+
+```c++
+const int D = 100;
+const int D2 = D * 2;
+using bs = bitset<D2>; // Dの分ゲタを履かせる
+bs data;
+data[10] = 1;
+data[15] = 1;
+data[20] = 1;
+data = data << 10; // 3つ同時に10加算
+```
 
 ## アルゴリズム系
 
@@ -342,6 +355,37 @@ ll GaussElimination(vl& v) {
 }
 ```
 
+#### 数列の数え上げ
+
+昇順でソートされている数列の任意の2つの和がx以上の組み合わせの個数や合計を求める。O(N)で求まる。
+
+```c++
+  auto calc = [&](ll x, ll& sum) {
+    ll num = 0;
+    sum = 0;
+    int j = n - 1;
+    rep(i, n) {
+      while (j >= 0 && a[i] + a[j] >= x) {
+        sum += a[j] * (n - i);
+        j--;
+      }
+      sum += (n - (j + 1)) * a[i];
+      num += n - (j + 1);
+    }
+    return num;
+  };
+  // lower_boundを使った方法 (sumの計算は累積和が必要)
+  auto calc = [&](ll x) {
+    ll num = 0;
+    rep(i, n) {
+      int j = lower_bound(a.begin(), a.end(), x - a[i]) - a.begin();
+      if (j == n) continue;
+      num += n - j;
+    }
+    return num;
+  };
+```
+
 ## 文字列
 
 #### 文字列型
@@ -536,6 +580,11 @@ rep(i, n) rep(less, 2) rep(d, 2) { // 10進数なら10にする
   dp[i + 1][nless] += dp[i][less];
 }
 ```
+
+## Tips
+
+- 最大値を最小化する問題はまず二分探索を考える
+- DAGかどうかを考える
 
 ## サイトリンク集
 
