@@ -2,9 +2,10 @@ a.out
 *.dSYM/
 *.[1-9]
 *.[1-9].ans
-abc*/
-agc*/
-arc*/
-test*/
-other/
-virtual/
+# don't add those otherwise quick file (cmd+p) won't work
+# abc*/
+# agc*/
+# arc*/
+# test*/
+# other/
+# virtual/
