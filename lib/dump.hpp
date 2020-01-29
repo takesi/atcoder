@@ -19,6 +19,7 @@ public:
   }
 };
 #define vector _vector
+#define bool int
 
 template<typename T>
 inline ostream& operator<<(ostream& o, const vector<T>& v);

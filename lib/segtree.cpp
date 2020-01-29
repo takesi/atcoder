@@ -70,7 +70,7 @@ struct LazySegTree {
   T init; // 単位元(初期値)
   vector<T> node;
   vector<T> lazy;
-  vector<int> lazyFlag;
+  vector<bool> lazyFlag;
   function<T(T&, T&)> calc; // 子ノード2つから親ノードのデータにする処理
   // 初期値と処理関数の設定
   void setQuery() {
