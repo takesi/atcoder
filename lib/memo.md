@@ -374,7 +374,8 @@ ll GaussElimination(vl& v) {
     }
     return num;
   };
-  // lower_boundを使った方法 (sumの計算は累積和が必要)
+  
+// lower_boundを使った方法 (sumの計算は累積和が必要)
   auto calc = [&](ll x) {
     ll num = 0;
     rep(i, n) {
@@ -531,7 +532,7 @@ Dinic法のライブラリはここ。
 
 #### ナップサック
 
-#### 最長共通部分列(LCS)
+#### 最長共通部分列 (LCS)
 
 文字列sとtが与えられて共通部分文字列の最大値を求める。配るdpの実装。
 
@@ -606,6 +607,7 @@ s = input() # abcde
 x = int(input()) # 3
 n, m = map(int, input().split()) # 10 20
 a = list(map(int, input().split())) # 1 2 3 4 5 ...
+a = [int(i) for i in input().split()] # 1 2 3 4 5 ...
 b = [0] * 5 # [0, 0, 0, 0, 0]
 c = []
 for i in range(5):
