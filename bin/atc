@@ -11,6 +11,7 @@ function usage() {
   echo "            -w         : download html file and editorial"
   echo "            -c contest : contest name e.g. 'abc100'"
   echo "                         as default it will auto detect from current path"
+  echo "                         if you specify exact task url it will download the task"
   echo "            tasks      : task names e.g. 'a' or 'a-d'. download all tasks if not given"
   echo ""
   echo "    test (t,p,py) task [samples]                 test a task (c++ or python)"

@@ -14,6 +14,10 @@ if 2 < len(sys.argv):
 else:
     pattern = 'a-z'
 rx = r'([a-zA-Z0-9\-]+_)?[{0}]$'.format(pattern)
+if m:= re.match(r'https.*_([a-z])$', name):
+    contest = name
+    print(m.group(1) + ',' + name)
+    exit(0)
 contest = AtCoderContest.from_url('https://atcoder.jp/contests/' + name)
 try:
     for problem in contest.list_problem_data():
