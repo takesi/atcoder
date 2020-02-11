@@ -16,7 +16,7 @@
       "externalConsole": false,
       "MIMode": "lldb",
       // "miDebuggerPath": "/usr/local/Cellar/llvm/9.0.0/bin/lldb-mi",
-      "miDebuggerPath": "/Applications/Xcode.app/Contents/Developer/usr/bin/lldb-mi",
+      "miDebuggerPath": "/Applications/Xcode10.3.app/Contents/Developer/usr/bin/lldb-mi",
       "logging": {},
       "preLaunchTask": "g++ build active file"
     }
