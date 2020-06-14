@@ -9,7 +9,7 @@
                 "LOCAL"
             ],
             "macFrameworkPath": [
-                "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks",
+                "/Applications/Xcode11.3.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk/System/Library/Frameworks",
                 "/Library/Frameworks",
                 "/System/Library/Frameworks"
             ],

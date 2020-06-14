@@ -155,7 +155,6 @@
       "struct mint {",
       "  ll v;",
       "  mint(ll v = 0) : v((v % MOD + MOD) % MOD) {}",
-      "  operator ll() const { return v; }",
       "  mint pow(ll t) const;",
       "  mint inv() const;",
       "};",

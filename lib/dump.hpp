@@ -55,14 +55,7 @@ inline ostream& operator<<(ostream& o, const tuple<T1, T2, T3>& v) {
   return o << get<0>(v) << "," << get<1>(v) << "," << get<2>(v);
 }
 
-#define _dumpit(o, v)                                                                                                  \
-  {                                                                                                                    \
-    o << "[ ";                                                                                                         \
-    for (auto it = v.begin(); it != v.end(); it++) {                                                                   \
-      o << *it << " ";                                                                                                 \
-    }                                                                                                                  \
-    o << "]";                                                                                                          \
-  }
+#define _dumpit(o, v) { o << "[ "; for (auto it = v.begin(); it != v.end(); it++) { o << *it << " "; } o << "]"; }
 
 template<typename T>
 inline ostream& operator<<(ostream& o, const vector<T>& v) {
