@@ -3,9 +3,9 @@ a.out
 *.[1-9]
 *.[1-9].ans
 # don't add those otherwise quick file (cmd+p) won't work
-# abc*/
-# agc*/
-# arc*/
+abc/
+agc/
+arc/
+other/
 # test*/
-# other/
 # virtual/
