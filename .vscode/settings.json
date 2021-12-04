@@ -9,5 +9,5 @@
     "editor.parameterHints.enabled": false,
     "editor.snippetSuggestions": "top",
     "editor.tabCompletion": "onlySnippets",
-    "editor.lineNumbers": "relative",
+    // "editor.lineNumbers": "relative",
 }

@@ -9,3 +9,5 @@ arc/
 other/
 # test*/
 # virtual/
+bin/__pypackages__/
+bin/pdm.lock

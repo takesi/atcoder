@@ -21,6 +21,8 @@ function usage() {
   echo "    clean (c, cl)                                delete all sample cases"
 }
 
+export PATH=$PATH:"~/hobby/atcoder/bin/__pypackages__/3.9/bin"
+
 base_url="https://atcoder.jp/"
 cmd="./a.out"
 
@@ -56,7 +58,8 @@ case "$1" in
       fi
     fi
     echo "Download contest ${contest} $1"
-    tasks=$(atc-tasks ${contest} $1)
+    echo "${contest} $1"
+    tasks=$(pdm run -p ../bin python ../bin/atc-tasks ${contest} $1)
     for task in ${tasks}
       do
       regexp="([a-z]),(.*)$"
@@ -64,7 +67,8 @@ case "$1" in
         task=${BASH_REMATCH[1]}
         url=${BASH_REMATCH[2]}
         printf "\n[\e[34;1mDownloading ${task} samples\e[m]\n"
-        oj dl -s -d . -f "${task}.%i.%e" ${url}
+        echo "pdm run -p ../bin oj dl -s -d . -f ${task}.%i.%e ${url}"
+        pdm run -p ../bin oj dl -s -d . -f "${task}.%i.%e" ${url}
         for file in ${task}.[1-9].in
           do
           mv ${file} ${file/.in/}
