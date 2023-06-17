@@ -1,10 +1,14 @@
 {
-    "C_Cpp.intelliSenseEngineFallback": "Disabled",
-    "C_Cpp.errorSquiggles": "Disabled",
+    // "C_Cpp.intelliSenseEngineFallback": "Disabled",
+    // "C_Cpp.errorSquiggles": "Disabled",
     "C_Cpp.updateChannel": "Insiders",
     "C_Cpp.suggestSnippets": false,
     "editor.hover.enabled": false,
-    "editor.quickSuggestions": false,
+    "editor.quickSuggestions": {
+        "comments": "off",
+        "strings": "off",
+        "other": "off"
+    },
     "editor.suggestOnTriggerCharacters": false,
     "editor.parameterHints.enabled": false,
     "editor.snippetSuggestions": "top",
